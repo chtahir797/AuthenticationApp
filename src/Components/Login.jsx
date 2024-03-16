@@ -1,14 +1,28 @@
 import WorldPNG from "../assets/World.png";
 import Circle from "../assets/Circle.png";
 import Skeleton from "../assets/Skeleton.png";
-import { Link } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 const Login = () => {
+  const navigate = useNavigate();
+  
+  //UseState for form data
   const [formData, setFormData] = useState({
     email: "admin@gmail.com",
     password: "",
   });
+  //UseState for storing random password
   const [password, setPassword] = useState(null);
+
+  const { login } = useAuth();
+
+  const handleLogin = () => {
+    // Implement your login logic here
+    login();
+  };
+
+  //Keep track of changing input values
   const changingValue = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -19,12 +33,12 @@ const Login = () => {
       };
     });
   };
-  
+  //Generating random password
   const generatePassword = () => {
     let newPass = "";
     let alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmopqrstuvwxyz";
     let specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-    
+
     for (let i = 0; i < 3; i++) {
       let generatingNumber = Math.floor(Math.random() * 10);
       newPass += generatingNumber;
@@ -43,17 +57,25 @@ const Login = () => {
     }
     setPassword(newPass);
   };
+  //Run the random password generation function when a component render
   useEffect(() => {
     generatePassword();
   }, []);
-  const handleSubmission =() =>{
+  //Handle Submission after entering credentials
+  const handleSubmission = () => {
     // console.log("Matched or not",newPass, "   ", password )
-    if(password == formData.password){
-        alert("Congrats")
-    } else{
-        alert("try again")
+    if (password == formData.password && formData.email == "admin@gmail.com") {
+      alert("Congrats");
+      login();
+      navigate("/home");
+    } else {
+      if (formData.password != password) {
+        alert("Password not matched");
+      } else if (formData.email != "admin@gmail.com") {
+        alert("Incorrect email");
+      }
     }
-  }
+  };
   return (
     <>
       <h1>{password}</h1>
@@ -152,7 +174,10 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="submitbutton">
-                  <button className="border-2 border-[#73114B] rounded-md p-2 w-full text-center bg-[#73114B] text-[#fff]" onClick={handleSubmission}>
+                  <button
+                    className="border-2 border-[#73114B] rounded-md p-2 w-full text-center bg-[#73114B] text-[#fff]"
+                    onClick={handleSubmission}
+                  >
                     Login
                   </button>
                 </div>
