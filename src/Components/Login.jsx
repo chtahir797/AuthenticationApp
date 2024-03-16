@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 const Login = () => {
   const navigate = useNavigate();
-  
+
   //UseState for form data
   const [formData, setFormData] = useState({
     email: "admin@gmail.com",
@@ -61,25 +61,19 @@ const Login = () => {
   useEffect(() => {
     generatePassword();
   }, []);
-  //Handle Submission after entering credentials
   const handleSubmission = () => {
-    // console.log("Matched or not",newPass, "   ", password )
-    if (password == formData.password && formData.email == "admin@gmail.com") {
+    if (formData.email === "admin@gmail.com" && formData.password === password) {
       alert("Congrats");
       login();
       navigate("/home");
     } else {
-      if (formData.password != password) {
-        alert("Password not matched");
-      } else if (formData.email != "admin@gmail.com") {
-        alert("Incorrect email");
-      }
+        alert("Password or email not matched");
     }
   };
   return (
     <>
       <h1>{password}</h1>
-      <div className="h-screen bg-[#FFE6C9] flex justify-center items-center">
+      {/* <div className="h-screen bg-[#FFE6C9] flex justify-center items-center">
         <div className=" bg-[#fff] h-[80vh] w-[70vw] rounded-lg flex items-center">
           <div className="bg-[#FFE6C9] h-[78vh] w-[40vw] m-2 rounded-l-lg ">
             <div>
@@ -185,7 +179,88 @@ const Login = () => {
             </div>
           </div>
         </div>
+      </div> */}
+
+<div className="h-screen bg-[#FFE6C9] flex justify-center items-center">
+  <div className="bg-[#fff] h-[80vh] sm:h-[90vh] w-full max-w-[800px] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] rounded-lg flex flex-col sm:flex-row items-center">
+    <div className="bg-[#FFE6C9] sm:h-[100%] w-full sm:w-[40%] m-2 sm:rounded-l-lg flex flex-col justify-center items-center">
+      <img
+        src={WorldPNG}
+        alt="World png"
+        className="h-[120px] w-[120px] sm:h-[200px] sm:w-[200px] rounded-t-lg mb-4"
+      />
+      <div className="text-center sm:text-left">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#73114B]">
+          Turn your ideas into reality.
+        </h1>
+        <p className="text-base text-[#73114B]">
+          Start for free and get attractive offers from the community
+        </p>
       </div>
+    </div>
+
+    <div className="bg-[#fff] sm:h-[100%] w-full sm:w-[60%] m-auto sm:m-0">
+      <div className="loginform flex flex-col gap-4 p-4 sm:p-8">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-[#73114B]">
+            Login to your Account
+          </h1>
+          <p className="text-sm text-[#73114B]">
+            See what is going on with your business
+          </p>
+        </div>
+        <div className="form flex flex-col gap-4">
+          <div className="email">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={changingValue}
+              required
+              className="border-2 border-[#DED2D9] rounded-md p-2 focus:bg-[#73114B] focus:text-white focus:outline-none"
+            />
+          </div>
+          <div className="password">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="**********"
+              value={formData.password}
+              onChange={changingValue}
+              required
+              className="border-2 border-[#DED2D9] rounded-md p-2 focus:bg-[#73114B] focus:text-white focus:outline-none"
+            />
+          </div>
+          <div className="forget flex justify-between items-center">
+            <div className="checkbox flex items-center">
+              <input type="checkbox" name="Remember" />
+              <label htmlFor="remember" className="text-xs">
+                Remember me
+              </label>
+            </div>
+            <div className="password">
+              <Link to="/" className="text-[#73114B] font-medium text-xs">
+                Forget Password?
+              </Link>
+            </div>
+          </div>
+          <div className="submitbutton">
+            <button
+              className="border-2 border-[#73114B] rounded-md p-2 text-center bg-[#73114B] text-[#fff]"
+              onClick={handleSubmission}
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     </>
   );
 };
